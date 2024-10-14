@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      body {
+        background: #000;
+        color: #fff;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+      input {
+        color: #fff;
+        background: #000;
+        border: 2px solid #444;
+        outline: none;
+        padding: 10px 20px;
+        margin: 5px auto;
+        border-radius: 100px;
+        width: 100%;
+      }
+      .submitBtn {
+        cursor: pointer;
+        transition: all 0.4s ease;
+      }
+      .submitBtn:hover {
+        background: #fff;
+        color: #000;
+        border: 2px solid transparent;
+      }
+      #notes {
+        margin: 40px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .note {
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin: 10px auto;
+        border: 1px solid #444;
+      }
+      .note span {
+        font-size: small;
+      }
+      .note h2 {
+        font-weight: 400;
+      }
+      .note p {
+        font-size: medium;
+      }
+      .deleteBtn {
+        outline: none;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 100px;
+        color: rgb(192, 0, 0);
+        background: rgb(255, 219, 225);
+        cursor: pointer;
+      }
+    </style>
+    <title>My Notes</title>
+  </head>
+  <body>
+    <h1>Add Notes</h1>
+    <form action="http://localhost:3000/api/notes/create" method="get">
+      <!-- <form onsubmit="submitForm" action="note.html"> -->
+      <div>
+        <input type="number" id="id" name="id" placeholder="id here" required />
+      </div>
+      <div>
+        <input
+          type="input"
+          id="title"
+          name="title"
+          placeholder="title here"
+          required
+        />
+      </div>
+      <div>
+        <input
+          type="input"
+          id="description"
+          name="description"
+          placeholder="description here"
+          required
+        />
+      </div>
+      <div>
+        <input type="submit" value="Submit" class="submitBtn" />
+      </div>
+    </form>
+
+    <h1>Notes App</h1>
+    <div id="notes">
+      <div class="note">
+        <span>Id: </span>
+        <h2>Hey, Guy</h2>
+        <p>Hey, description</p>
+      </div>
+    </div>
+
+    <script>
+      const getData = async () => {
+        const notes = document.getElementById("notes");
+        const res = await fetch("http://localhost:3000/api/notes");
+        const data = await res.json();
+
+        let html = "";
+        data.forEach((note) => {
+          html += `
+          <div class="note">
+            <span>${note.id} </span>
+            <h2>${note.title}</h2>
+            <p>${note.description}</p>
+            <button class='deleteBtn' onclick=deleteNote(${note.id})>Del</button>
+            </div>
+            `;
+        });
+        notes.innerHTML = html;
+        // console.log(data);
+      };
+
+      getData();
+
+      const deleteNote = async (id) => {
+        const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+          method: "delete",
+        });
+        const data = await res.json();
+        // console.log(data);
+        if (data.message == "note deleted successfully") {
+          location.reload();
+        }
+      };
+    </script>
+  </body>
+</html>
