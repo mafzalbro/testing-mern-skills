@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "main.js",
   "dependencies": {
-    "@oven/bun-windows-x64-baseline": "^1.1.30",
-    "bun": "^1.1.30",
     "express": "^4.21.1",
     "mongoose": "^8.7.1",
     "morgan": "^1.10.0"
