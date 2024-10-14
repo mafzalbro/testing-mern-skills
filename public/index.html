@@ -123,8 +123,25 @@
     <script>
       const getData = async () => {
         const notes = document.getElementById("notes");
-        const res = await fetch("http://localhost:3000/api/notes");
-        const data = await res.json();
+        const notesData = [
+          {
+            id: 1,
+            title: "Work Hard",
+            description: "Work on your language skills...",
+          },
+          {
+            id: 2,
+            title: "Work Smart",
+            description: "Work on your reaching the right person skills...",
+          },
+        ];
+
+        let data;
+        const res = await fetch("/api/notes");
+        data = await res.json();
+        if(data){
+          data = notesData;
+        }
         data.sort((a, b) => b.id - a.id);
         let html = "";
         data.forEach((note) => {
@@ -144,7 +161,7 @@
       getData();
 
       const deleteNote = async (id) => {
-        const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+        const res = await fetch(`/api/notes/${id}`, {
           method: "delete",
         });
         const data = await res.json();
