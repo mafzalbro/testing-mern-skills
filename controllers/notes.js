@@ -29,7 +29,7 @@ const createNote = async (req, res) => {
 
     await note.save();
 
-    res.redirect("http://localhost:3000");
+    res.redirect("/");
     // return res.status(201).json({ message: "Note created successfully", note });
   } catch (error) {
     return res.status(500).json({ message: error.message });
